@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificación PIN - Banco de Horas</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="login-box">
+            <div class="logo">
+                <h1>Verificación de Identidad</h1>
+                <p>Hemos enviado un PIN a tu correo electrónico</p>
+            </div>
+            
+            <form id="pinForm" class="login-form" autocomplete="off">
+                <div class="form-group">
+                    <label for="pin">Código PIN</label>
+                    <input
+                        type="text"
+                        id="pin"
+                        name="pin"
+                        inputmode="numeric"
+                        pattern="\d{6}"
+                        autocomplete="off"
+                        aria-autocomplete="none"
+                        autocorrect="off"
+                        autocapitalize="off"
+                        spellcheck="false"
+                        placeholder="Ingresa el código de 6 dígitos"
+                        maxlength="6"
+                        required
+                    >
+                    <span class="error-message" id="pinError"></span>
+                </div>
+                
+                <div class="email-info">
+                    <p>PIN enviado a: <span id="userEmail"></span></p>
+                </div>
+                
+                <button type="submit" class="btn-primary">Verificar PIN</button>
+                
+                <div class="form-links">
+                    <button type="button" class="btn-secondary" id="resendPin">Reenviar PIN</button>
+                    <a href="index.html" class="back-link">Volver al login</a>
+                </div>
+            </form>
+            
+            <div class="error-container" id="pinErrorContainer" style="display: none;">
+                <p class="error-text"></p>
+            </div>
+            
+            <div class="success-container" id="pinSuccess" style="display: none;">
+                <p class="success-text">PIN reenviado correctamente</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/pin-verification.js"></script>
+</body>
+</html>

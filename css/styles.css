@@ -1,0 +1,415 @@
+/* ===============================================
+   Reset y configuración base
+   - Definimos variables de color institucional
+   - Aplicamos tipografía y layout base
+   =============================================== */
+
+:root {
+    /* Paleta institucional aproximada (Pascual Bravo) */
+    --pb-azul-oscuro: #0b2b5c;   /* Azul principal (header/botones) */
+    --pb-azul: #114b8a;          /* Azul medio (hover/bordes) */
+    --pb-azul-claro: #2b6cb0;    /* Azul claro (acentos/sombras) */
+    --pb-dorado: #f4b400;        /* Dorado acento */
+    --pb-dorado-oscuro: #d99a00; /* Dorado hover */
+
+    /* Neutros */
+    --pb-blanco: #ffffff;
+    --pb-gris-900: #1a202c;
+    --pb-gris-700: #4a5568;
+    --pb-gris-600: #718096;
+    --pb-gris-500: #a0aec0;
+    --pb-gris-300: #e2e8f0;
+    --pb-gris-200: #edf2f7;
+    --pb-fondo: linear-gradient(135deg, var(--pb-azul-oscuro) 0%, var(--pb-azul) 100%);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Fondo con gradiente institucional */
+    background: var(--pb-fondo);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--pb-gris-900);
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+/* Contenedor ancho para vistas de escritorio (dashboard) */
+.container-wide {
+    width: 95vw;
+    max-width: 1600px;
+}
+
+/* Ultra-wide: ocupar más espacio en pantallas muy grandes */
+@media (min-width: 1600px) {
+    .container-wide {
+        width: 90vw;
+        max-width: 1800px;
+    }
+}
+
+/* Estilos del formulario de login */
+.login-box {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo h1 {
+    color: var(--pb-gris-700);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.logo p {
+    color: var(--pb-gris-600);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Estilos del formulario */
+.login-form {
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--pb-gris-700);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--pb-gris-300);
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: var(--pb-blanco);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--pb-azul);
+    background: var(--pb-blanco);
+    box-shadow: 0 0 0 3px rgba(17, 75, 138, 0.15);
+}
+
+.form-group input::placeholder {
+    color: var(--pb-gris-500);
+}
+
+/* ===============================================
+   Botones
+   - Primario (azul institucional)
+   - Secundario (contorno)
+   - Cierre de sesión (rojo)
+   =============================================== */
+.btn-primary {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--pb-azul) 0%, var(--pb-azul-claro) 100%);
+    color: var(--pb-blanco);
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(17, 75, 138, 0.3);
+}
+
+.btn-secondary {
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    color: var(--pb-azul);
+    border: 2px solid var(--pb-azul);
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.btn-secondary:hover {
+    background: var(--pb-azul);
+    color: var(--pb-blanco);
+}
+
+.btn-logout {
+    padding: 8px 16px;
+    background: #e53e3e;
+    color: var(--pb-blanco);
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+    background: #c53030;
+}
+
+/* Enlaces */
+.form-links {
+    text-align: center;
+}
+
+.forgot-password, .back-link {
+    color: var(--pb-azul);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.forgot-password:hover, .back-link:hover {
+    color: var(--pb-azul-claro);
+    text-decoration: underline;
+}
+
+/* Información del email en verificación de PIN */
+.email-info {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: var(--pb-gris-200);
+    border-radius: 8px;
+}
+
+.email-info p {
+    color: var(--pb-gris-700);
+    font-size: 0.9rem;
+}
+
+.email-info span {
+    font-weight: 600;
+    color: var(--pb-azul);
+}
+
+/* Mensajes de error y éxito */
+.error-message {
+    display: block;
+    color: #e53e3e;
+    font-size: 0.8rem;
+    margin-top: 5px;
+    font-weight: 500;
+}
+
+.error-container {
+    margin-top: 15px;
+    padding: 12px;
+    background: #fed7d7;
+    border: 1px solid #feb2b2;
+    border-radius: 8px;
+}
+
+.error-text {
+    color: #c53030;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.success-container {
+    margin-top: 15px;
+    padding: 12px;
+    background: #e6fffa;
+    border: 1px solid #b2f5ea;
+    border-radius: 8px;
+}
+
+.success-text {
+    color: #276749;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+/* ===============================================
+   Estilos del Dashboard
+   =============================================== */
+.dashboard-container {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    min-height: 90vh;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+}
+
+/* Logo institucional en el fondo del dashboard */
+.dashboard-container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('../Logo.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 40%;
+    opacity: 0.08; /* sutil para que no interfiera con el contenido */
+    pointer-events: none;
+}
+
+.dashboard-header {
+    background: linear-gradient(135deg, var(--pb-azul-oscuro) 0%, var(--pb-azul) 100%);
+    color: var(--pb-blanco);
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboard-header .logo h1 {
+    color: var(--pb-blanco);
+    font-size: 1.5rem;
+    margin-bottom: 2px;
+}
+
+.dashboard-header .logo p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.8rem;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.dashboard-main {
+    padding: 40px 30px;
+}
+
+.welcome-message {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.welcome-message h2 {
+    color: var(--pb-gris-700);
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.welcome-message p {
+    color: var(--pb-gris-600);
+    font-size: 1.1rem;
+}
+
+.dashboard-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+.info-card {
+    background: var(--pb-blanco);
+    padding: 24px 28px;
+    border-radius: 15px;
+    border: 1px solid var(--pb-gris-300);
+    max-width: 100%;
+}
+
+.info-card h3 {
+    color: var(--pb-gris-700);
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.info-card p {
+    color: var(--pb-gris-600);
+    line-height: 1.6;
+}
+
+/* Grid de escritorio: 2 columnas a partir de 1024px */
+@media (min-width: 1024px) {
+    .dashboard-content {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: start;
+    }
+}
+
+/* ===============================================
+   Responsive Design
+   =============================================== */
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .login-box {
+        padding: 30px 20px;
+    }
+    
+    .logo h1 {
+        font-size: 1.7rem;
+    }
+    
+    .dashboard-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .dashboard-main {
+        padding: 30px 20px;
+    }
+    
+    .welcome-message h2 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .login-box {
+        padding: 25px 15px;
+    }
+    
+    .form-group input {
+        padding: 10px 12px;
+    }
+    
+    .btn-primary {
+        padding: 12px;
+    }
+}
