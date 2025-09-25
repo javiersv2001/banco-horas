@@ -1,9 +1,10 @@
-// server.js — sirve tus HTML desde la raíz del repo y conecta a Postgres en Render
+// server.js — Banco de Horas
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-const { conectarBD } = require('./config/database'); // tu archivo de conexión
+const bcrypt = require('bcryptjs');              // usamos bcryptjs
+const { conectarBD, pool } = require('./config/database'); // conexión a Postgres
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -15,14 +16,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // 1) Servir estáticos DESDE LA RAÍZ DEL REPO (porque tus html/css/js están ahí)
-app.use(express.static(__dirname)); // <-- clave para que carguen /css y /js
+app.use(express.static(__dirname));
 
 // 2) Que "/" abra tu login (index.html en la raíz)
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// (opcional) si tienes rutas como /register o /dashboard, sirve los html correspondientes:
+// rutas a otras páginas
 app.get('/register', (req, res) => {
   res.sendFile(path.join(__dirname, 'register.html'));
 });
@@ -40,25 +41,18 @@ app.get('/pin-verification', (req, res) => {
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', at: new Date().toISOString() });
 });
-const bcrypt = require('bcrypt');
-const { pool } = require('./config/database');
 
+// ---------------- API REGISTER ----------------
 // POST /api/register  { full_name, email, password }
 app.post('/api/register', async (req, res) => {
   try {
     const { full_name, email, password } = req.body;
 
-    // Validaciones básicas
     if (!full_name || !email || !password) {
       return res.status(400).json({ ok: false, msg: 'Faltan campos' });
     }
 
-    // (Opcional) limitar dominio institucional
-    // if (!email.endsWith('@pascualbravo.edu.co')) {
-    //   return res.status(400).json({ ok: false, msg: 'Correo no permitido' });
-    // }
-
-    // ¿ya existe?
+    // verificar si el correo ya existe
     const exists = await pool.query('SELECT 1 FROM users WHERE email=$1', [email]);
     if (exists.rowCount > 0) {
       return res.status(409).json({ ok: false, msg: 'El correo ya está registrado' });
@@ -80,7 +74,7 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
-// arrancar después de conectar a BD
+// ---------------- ARRANQUE ----------------
 async function startServer() {
   try {
     await conectarBD(); // SELECT 1
