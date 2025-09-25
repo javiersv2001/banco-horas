@@ -1,18 +1,18 @@
 // js/register.js
-// Registro de usuario: valida datos y llama a POST /api/register en el MISMO dominio (Render)
+// Registro de usuario: valida datos y envía POST /api/register al backend en Render
 
 document.addEventListener('DOMContentLoaded', () => {
-  // ----- Elementos del formulario (usa los ids que ya tienes) -----
+  // Elementos del formulario
   const form = document.getElementById('registerForm');
-  const nameInput = document.getElementById('name');        // Nombre completo
-  const emailInput = document.getElementById('email');      // Correo
-  const passInput = document.getElementById('password');    // Contraseña
+  const nameInput = document.getElementById('name');        // input nombre
+  const emailInput = document.getElementById('email');      // input correo
+  const passInput = document.getElementById('password');    // input contraseña
 
-  // Cajas de mensajes (opcionales, si no existen se usa alert)
-  const errorBox = document.getElementById('registerError');       // <div id="registerError">...</div>
-  const successBox = document.getElementById('registerSuccess');   // <div id="registerSuccess">...</div>
+  // Cajas de mensajes (si no existen, usa alert)
+  const errorBox = document.getElementById('registerError');       // <div id="registerError">
+  const successBox = document.getElementById('registerSuccess');   // <div id="registerSuccess">
 
-  // Helpers para mostrar/ocultar mensajes
+  // Funciones helpers
   function show(el, msg) {
     if (!el) return alert(msg);
     el.textContent = msg;
@@ -30,9 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
     show(successBox, msg);
   }
 
-  // Validación simple
+  // Validación de correo institucional
   function isInstitutionalEmail(mail) {
-    // Permite @pascualbravo.edu.co; quita esta validación si quieres permitir cualquiera
     return /@pascualbravo\.edu\.co$/i.test(mail);
   }
 
@@ -54,7 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (password.length < 8) return showError('La contraseña debe tener al menos 8 caracteres.');
 
     try {
-      // IMPORTANTE: misma URL de tu servidor (Render). No uses http://localhost...
       const resp = await fetch('/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
