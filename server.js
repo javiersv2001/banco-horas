@@ -74,6 +74,42 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
+// ---------------- API LOGIN ----------------
+// POST /api/login { email, password }
+app.post('/api/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ ok: false, msg: 'Faltan campos' });
+    }
+
+    // buscar usuario
+    const result = await pool.query('SELECT * FROM users WHERE email=$1', [email]);
+    if (result.rowCount === 0) {
+      return res.status(401).json({ ok: false, msg: 'Credenciales inválidas' });
+    }
+
+    const user = result.rows[0];
+
+    // comparar contraseña
+    const match = await bcrypt.compare(password, user.password_hash);
+    if (!match) {
+      return res.status(401).json({ ok: false, msg: 'Credenciales inválidas' });
+    }
+
+    // autenticado
+    return res.json({
+      ok: true,
+      msg: 'Login exitoso',
+      user: { id: user.id, name: user.full_name, email: user.email }
+    });
+  } catch (err) {
+    console.error('Error en /api/login:', err);
+    return res.status(500).json({ ok: false, msg: 'Error del servidor' });
+  }
+});
+
 // ---------------- ARRANQUE ----------------
 async function startServer() {
   try {
