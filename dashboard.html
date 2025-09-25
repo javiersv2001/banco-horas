@@ -1,35 +1,49 @@
-// js/dashboard.js
-// Protege el dashboard, pinta el usuario y permite cerrar sesión
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard - Banco de Horas</title>
+  <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body class="dashboard-body">
+  <div class="container container-wide">
+    <div class="dashboard-container">
+      <header class="dashboard-header">
+        <div class="logo">
+          <h1>Banco de Horas</h1>
+          <p>Institución Universitaria Pascual Bravo</p>
+        </div>
+        <div class="user-info">
+          <span id="userWelcome">Cargando…</span>
+          <button class="btn-logout" id="logoutBtn">Cerrar sesión</button>
+        </div>
+      </header>
 
-document.addEventListener('DOMContentLoaded', () => {
-  // 1) Comprobar "sesión"
-  const userEmail = sessionStorage.getItem('userEmail');
-  const userName  = sessionStorage.getItem('userName');
-  // (compat con lógicas antiguas)
-  const loginToken = sessionStorage.getItem('loginToken');
+      <main class="dashboard-main">
+        <div class="welcome-message">
+          <h2>Bienvenido al Banco de Horas</h2>
+          <p>Has iniciado sesión exitosamente en el sistema.</p>
+        </div>
 
-  // Si no hay sesión, volver al login
-  if (!userEmail || !loginToken) {
-    window.location.href = '/';
-    return;
-  }
+        <div class="dashboard-content">
+          <div class="info-card">
+            <h3>Sistema de Gestión de Horas</h3>
+            <p>
+              Este es el muro principal del sistema Banco de Horas de la Institución Universitaria Pascual Bravo.
+            </p>
+            <hr />
+            <p>
+              <strong>Nombre:</strong> <span id="userNameSpan">—</span><br />
+              <strong>Correo:</strong> <span id="userEmailSpan">—</span>
+            </p>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
 
-  // 2) Pintar saludo
-  const userWelcomeEl = document.getElementById('userWelcome');
-  if (userWelcomeEl) {
-    const nombreMostrado = userName && userName.trim() ? userName : userEmail;
-    userWelcomeEl.textContent = `Bienvenido, ${nombreMostrado}`;
-  }
-
-  // 3) Botón de logout
-  const logoutBtn = document.getElementById('logoutBtn');
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', () => {
-      sessionStorage.clear();
-      window.location.href = '/';
-    });
-  }
-
-  // (Opcional) ping de salud del backend
-  // fetch('/api/health').catch(() => {});
-});
+  <!-- Script del dashboard (protege la ruta y muestra datos del usuario) -->
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
