@@ -40,6 +40,45 @@ app.get('/pin-verification', (req, res) => {
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', at: new Date().toISOString() });
 });
+const bcrypt = require('bcrypt');
+const { pool } = require('./config/database');
+
+// POST /api/register  { full_name, email, password }
+app.post('/api/register', async (req, res) => {
+  try {
+    const { full_name, email, password } = req.body;
+
+    // Validaciones básicas
+    if (!full_name || !email || !password) {
+      return res.status(400).json({ ok: false, msg: 'Faltan campos' });
+    }
+
+    // (Opcional) limitar dominio institucional
+    // if (!email.endsWith('@pascualbravo.edu.co')) {
+    //   return res.status(400).json({ ok: false, msg: 'Correo no permitido' });
+    // }
+
+    // ¿ya existe?
+    const exists = await pool.query('SELECT 1 FROM users WHERE email=$1', [email]);
+    if (exists.rowCount > 0) {
+      return res.status(409).json({ ok: false, msg: 'El correo ya está registrado' });
+    }
+
+    // hash de contraseña
+    const hash = await bcrypt.hash(password, 10);
+
+    // insertar
+    await pool.query(
+      'INSERT INTO users(full_name, email, password_hash) VALUES ($1, $2, $3)',
+      [full_name, email, hash]
+    );
+
+    return res.json({ ok: true, msg: 'Usuario registrado' });
+  } catch (err) {
+    console.error('Error en /api/register:', err);
+    return res.status(500).json({ ok: false, msg: 'Error del servidor' });
+  }
+});
 
 // arrancar después de conectar a BD
 async function startServer() {
