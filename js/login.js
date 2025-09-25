@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const errorBox = document.getElementById('loginError');     // <div id="loginError">
   const successBox = document.getElementById('loginSuccess'); // <div id="loginSuccess">
 
-  // Funciones helpers
+  // Helpers UI
   function show(el, msg) {
     if (!el) return alert(msg);
     el.textContent = msg;
@@ -53,12 +53,13 @@ document.addEventListener('DOMContentLoaded', () => {
         return showError(data.msg || 'Credenciales incorrectas.');
       }
 
-      // Guardar datos de usuario en sessionStorage
+      // Guardar datos mínimos de sesión para el dashboard
       sessionStorage.setItem('userName', data.user.name);
       sessionStorage.setItem('userEmail', data.user.email);
+      sessionStorage.setItem('loginToken', 'true'); // compat con guardias antiguos
 
       showOk('¡Bienvenido, ' + data.user.name + '!');
-      setTimeout(() => { window.location.href = '/dashboard'; }, 1000);
+      setTimeout(() => { window.location.href = '/dashboard'; }, 900);
     } catch (err) {
       console.error(err);
       showError('Error de conexión con el servidor.');
